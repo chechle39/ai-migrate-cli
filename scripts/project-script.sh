@@ -1,7 +1,6 @@
 ###################################################################
 echo "PROJECT_APPKEY:$PROJECT_APPKEY"
 ###################################################################
-cd $PROJECT_APPKEY
 echo "current folder is..." && pwd
 
 npm i
