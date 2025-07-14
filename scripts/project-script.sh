@@ -32,7 +32,7 @@ echo "Publishing NPM Package to Artifactory ..."
 echo "Publishing Development Version ... "
 cd ../dist
 npm version $VERSION
-echo "BRANCH_IDENTIFIER: $BRANCH_IDENTIFIER"
+BRANCH_IDENTIFIER="dev"
 npm publish --tag $BRANCH_IDENTIFIER
-git tag bizcommon@$VERSION
-git push origin bizcommon@$VERSION
+git tag ai-migrate-cli@$VERSION
+git push origin ai-migrate-cli@$VERSION
