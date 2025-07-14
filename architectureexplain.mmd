@@ -1,0 +1,413 @@
+%% Diagram 1
+The provided PHP file is a mix of view and controller logic. It doesn't follow the MVC (Model-View-Controller) pattern strictly, as it lacks a separate model layer. However, we can still extract a high-level architecture flow from it.
+
+Here's the flow in Mermaid.js format:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant View as add-appointment.php
+    participant Controller as PHP_SELF
+    participant DB as Database
+
+    User->>View: Accesses add-appointment.php
+    View->>Controller: Form submission (POST)
+    Controller->>DB: Connects to Database
+    DB-->>Controller: Connection status
+    Controller->>DB: Sends SQL Query
+    DB-->>Controller: Query execution status
+    Controller->>View: Displays result message
+    View-->>User: Shows result message
+```
+
+This diagram represents the sequence of interactions between the user, the view (add-appointment.php), the controller (embedded PHP code within the same file), and the database. The user accesses the page, submits the form, the PHP code connects to the database, executes the SQL query, and finally, the result is displayed back to the user.
+
+%% Diagram 2
+The given PHP file is a mix of view and controller logic, and it directly interacts with the database. There is no explicit model layer in this code. However, we can still infer a high-level architecture flow.
+
+Here's the Mermaid.js sequence diagram:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant View as add-doctor.php (View)
+    participant DB as Database
+    User->>View: Accesses page
+    View->>DB: Connects to database
+    DB-->>View: Connection established
+    View->>DB: Queries for max doctor id
+    DB-->>View: Returns max doctor id
+    User->>View: Submits form
+    View->>DB: Inserts new doctor record
+    DB-->>View: Returns result
+    View-->>User: Displays result
+```
+
+Please note that in a more structured MVC architecture, the database operations would be handled by a separate model layer, and the controller would mediate between the view and the model.
+
+%% Diagram 3
+Based on the provided PHP file, the architecture flow can be represented as follows:
+
+1. Route: The route is the URL path that the user navigates to in their browser. In this case, the route is `add-patient.php`.
+
+2. Controller: The controller is the PHP code that handles the HTTP request and response. In this case, the controller is the PHP code within the `add-patient.php` file. This code handles the form submission, connects to the database, and executes the SQL query.
+
+3. Model: The model represents the data structure. In this case, the model is the `patient` table in the database. The fields of the `patient` table are `patientID`, `firstName`, `lastName`, `age`, `gender`, and `address`.
+
+4. Database (DB): The database is where the data is stored. In this case, the database is `hospital`, and the data is stored in the `patient` table.
+
+The Mermaid.js representation of this architecture flow is:
+
+```mermaid
+sequenceDiagram
+    participant Route as add-patient.php
+    participant Controller as PHP Code
+    participant Model as patient Table
+    participant DB as hospital Database
+    Route->>Controller: HTTP Request (POST)
+    Controller->>Model: SQL Query (INSERT)
+    Model->>DB: Data Insertion
+    DB-->>Controller: Query Result
+    Controller-->>Route: HTTP Response
+```
+
+This diagram shows the sequence of interactions between the route, controller, model, and database when a new patient is added.
+
+%% Diagram 4
+The provided PHP file is a standalone script that directly interacts with the database to fetch data and then display it on the page. Therefore, it doesn't follow the traditional MVC (Model-View-Controller) architecture. However, we can still describe the flow in terms of route, model, and database.
+
+Here is the Mermaid.js sequence diagram that represents the flow:
+
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant View as appointment-view.php
+    participant DB as Database
+    User->>View: Accesses page
+    View->>DB: SELECT * FROM appo
+    DB-->>View: Returns appointment data
+    View->>User: Displays appointment data on page
+```
+
+This diagram shows that the user accesses the appointment-view.php page, which then queries the database to fetch all appointments. The database returns the appointment data to the view, which then displays this data on the page.
+
+Please note that in a typical MVC architecture, the view would not directly interact with the database. Instead, it would request data from a controller, which would then interact with a model to fetch data from the database. However, this is not the case in the provided PHP file.
+
+%% Diagram 5
+The given PHP file is a monolithic script that combines the routing, controller, model, and database operations in a single file. Here is the high-level architecture flow:
+
+- Route: The route is not explicitly defined in the file, but it's implied by the file name `deiete-appointment1.php`. When this file is accessed via a POST request, it triggers the deletion of an appointment.
+- Controller: The controller logic is mixed with the model logic in this file. It checks if the request method is POST and if the 'delete' button is clicked. If true, it proceeds to delete the appointment.
+- Model: The model is not explicitly defined but is implied in the SQL statement that deletes an appointment from the `appo` table in the database.
+- Database: The database operations are performed directly in this file. It connects to the `hospital4` database and executes the delete operation.
+
+Here is the Mermaid.js diagram:
+
+```mermaid
+sequenceDiagram
+    participant Route as deiete-appointment1.php
+    participant Controller as Delete Appointment Controller
+    participant Model as Appointment Model
+    participant DB as hospital4 Database
+    Route->>Controller: POST request with appointmentid
+    Controller->>Model: Request to delete appointment
+    Model->>DB: DELETE FROM appo WHERE appointmentid = ?
+    DB-->>Model: Result of delete operation
+    Model-->>Controller: Return result
+    Controller-->>Route: Return response (message or error)
+```
+
+Please note that in a more modern, MVC-based PHP application, the route, controller, model, and database operations would typically be separated into different files or classes.
+
+%% Diagram 6
+Based on the provided PHP file, the following high-level architecture flow can be extracted:
+
+1. Route: The user navigates to the delete-appointment.php page.
+2. Controller: The PHP code in the file acts as the controller. It handles two types of POST requests: 'showappointment' and 'deleteappointment'.
+3. Model: The model is not explicitly defined in a separate file but is represented by the SQL queries within the PHP code. The model interacts with the 'appo' table in the 'hospital4' database.
+4. Database: The database is 'hospital4', hosted on a local MySQL server. The specific table being interacted with is 'appo'.
+
+Here is the Mermaid.js sequence diagram representation:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant delete-appointment.php as Controller
+    participant SQL as Model
+    participant hospital4 as Database
+    User->>Controller: Navigate to delete-appointment.php
+    Controller->>Model: Prepare SQL query (show or delete)
+    Model->>Database: Execute SQL query on 'appo' table
+    Database-->>Model: Return query result
+    Model-->>Controller: Pass query result
+    Controller-->>User: Render page with result data
+```
+
+Please note that the PHP script is directly interacting with the database, which is not a recommended practice for larger, more complex applications. In such cases, it would be better to have a separate model layer to handle database operations.
+
+%% Diagram 7
+Based on the provided PHP file, the high-level architecture flow can be described as follows:
+
+- Route: delete-doctor.php
+- Controller: The PHP code in delete-doctor.php
+- Model: Not explicitly defined, but the operations on the 'doctors' table can be considered as the model.
+- DB: The MySQL database 'hospital4' with the table 'doctors'
+
+Here is the Mermaid.js format:
+
+```mermaid
+sequenceDiagram
+    participant Route as delete-doctor.php
+    participant Controller as PHP code
+    participant Model as doctors table
+    participant DB as hospital4 database
+    Route->>Controller: HTTP request (POST)
+    Controller->>Model: Query (SELECT/DELETE)
+    Model->>DB: Execute query
+    DB-->>Model: Query result
+    Model-->>Controller: Return result
+    Controller-->>Route: HTTP response
+```
+
+Please note that this is a simplified representation of the flow. The actual flow might involve more steps and components depending on the overall application architecture.
+
+%% Diagram 8
+The provided PHP file is a combination of a view and a controller. It directly interacts with the database using SQL queries. There is no explicit model layer in this code. However, we can consider the SQL queries as a model layer for the purpose of this diagram.
+
+Here is the Mermaid.js sequence diagram:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant View as delete-patient.php
+    participant DB as Database
+    User->>View: Enter Patient ID and click Show/Delete
+    View->>DB: SELECT * FROM patient WHERE patientID = 'input'
+    DB-->>View: Return patient data
+    Note over View: If Show button clicked, display patient data
+    Note over View: If Delete button clicked, proceed to delete
+    View->>DB: DELETE FROM patient WHERE patientID = 'input'
+    DB-->>View: Confirm deletion
+    View-->>User: Display success/failure message
+```
+
+This diagram shows the flow of data from the user to the view (delete-patient.php), then to the database, and back to the user. The view handles both displaying and deleting patient data based on user input.
+
+%% Diagram 9
+The given PHP file is a simple script that connects to a database, retrieves data, and displays it. It does not follow the traditional MVC (Model-View-Controller) pattern, so the route → controller → model → db flow is not applicable here. 
+
+However, we can still describe the flow of operations in this script. Here's a simplified sequence diagram using Mermaid.js format:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Script
+    participant Database
+    User->>Script: Request (GET)
+    Script->>Database: Connect
+    Database-->>Script: Connection Established
+    Script->>Database: Query (SELECT * FROM patient)
+    Database-->>Script: Result Set
+    Script->>User: Render HTML with Result Set
+```
+
+This sequence diagram represents the flow of operations in the script. The user sends a GET request to the script, the script connects to the database, sends a SQL query to the database, receives the result set from the database, and finally renders an HTML page with the result set to the user.
+
+%% Diagram 10
+The provided PHP file is a view file that is responsible for displaying the patient data from the database. It is not a complete MVC (Model-View-Controller) structure, but it does contain elements of it. 
+
+Here's the high-level architecture flow:
+
+- Route: The user accesses the patient-view.php file directly. 
+- Controller: The PHP code within the file acts as a controller. It handles the POST request and interacts with the database.
+- Model: The model is not explicitly defined, but the SQL query and database interaction can be considered as the model part.
+- Database: The database is accessed directly from this file. The database name is 'hospital' and the table name is 'patient'.
+
+The Mermaid.js sequence diagram would look like this:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant View as patient-view.php
+    participant Controller as PHP Code
+    participant Model as SQL Query
+    participant DB as Database
+    User->>View: Access patient-view.php
+    View->>Controller: POST request (if any)
+    Controller->>Model: Execute SQL Query
+    Model->>DB: Fetch data from 'patient' table
+    DB-->>Model: Return data
+    Model-->>Controller: Process data
+    Controller-->>View: Display data
+    View-->>User: Show patient data
+```
+
+Please note that the actual architecture might be different based on how the rest of the application is structured. This is a simplified interpretation based on the provided file.
+
+%% Diagram 11
+The provided code is a PHP file that directly interacts with the database. It doesn't follow the MVC (Model-View-Controller) pattern, so we can't extract a route → controller → model → db flow. However, we can describe the flow of the code as follows:
+
+1. Connect to the database.
+2. Check if a POST request is made with a 'search_id'. If yes, fetch the appointment with the corresponding ID from the database. If not, fetch all appointments.
+3. Close the database connection.
+4. Display the fetched appointments in HTML.
+
+In Mermaid.js format, this can be represented as follows:
+
+```mermaid
+graph TD
+A[Start] --> B[Connect to Database]
+B --> C{Check if POST request with 'search_id'}
+C -- Yes --> D[Fetch appointment with ID]
+D --> E[Close Database Connection]
+C -- No --> F[Fetch all appointments]
+F --> E
+E --> G[Display Appointments in HTML]
+G --> H[End]
+```
+
+This diagram represents the flow of the PHP script. Please note that this is a simplified representation and actual execution may involve more steps.
+
+%% Diagram 12
+The given PHP file is a standalone script that directly interacts with the database. It doesn't follow the MVC (Model-View-Controller) pattern, hence the route → controller → model → db flow is not applicable here.
+
+However, we can still represent the flow of operations in this script. Here is the Mermaid.js sequence diagram for the script:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Script as update-doctor.php
+    participant DB as Database
+
+    User->>Script: POST doctor_id (Show)
+    Script->>DB: SELECT * FROM doctors WHERE id = doctor_id
+    DB-->>Script: Returns doctor data
+    Script-->>User: Display doctor data
+
+    User->>Script: POST updated doctor data (Update)
+    Script->>DB: UPDATE doctors SET data WHERE id = doctor_id
+    DB-->>Script: Update operation status
+    Script-->>User: Display update status
+```
+
+This diagram represents two main sequences of operations:
+
+1. The user submits a doctor's ID to fetch the doctor's data. The script executes a SELECT query on the database and displays the data to the user.
+2. The user submits updated doctor data. The script executes an UPDATE query on the database and displays the status of the update operation to the user.
+
+%% Diagram 13
+Based on the provided PHP file, the high-level architecture flow is as follows:
+
+- The route is `update-patient.php`.
+- The controller is embedded in the same PHP file. It handles both GET and POST requests.
+- The model is not explicitly defined but can be inferred from the SQL queries. The model is `patient`.
+- The database is `hospital`.
+
+Here is the Mermaid.js representation:
+
+```mermaid
+graph TD
+    A[Route: update-patient.php]
+    B[Controller: Embedded in PHP file]
+    C[Model: patient]
+    D[Database: hospital]
+    A --> B
+    B --> C
+    C --> D
+```
+
+In the sequence diagram format:
+
+```mermaid
+sequenceDiagram
+    participant R as Route: update-patient.php
+    participant C as Controller: Embedded in PHP file
+    participant M as Model: patient
+    participant D as Database: hospital
+    R->>C: GET/POST request
+    C->>M: Process request
+    M->>D: SQL query
+    D-->>M: Result
+    M-->>C: Data
+    C-->>R: Response
+```
+
+%% Diagram 14
+The provided PHP file is a standalone script that directly interacts with the database, bypassing the typical MVC (Model-View-Controller) structure. Therefore, it doesn't strictly follow the route → controller → model → db flow. However, we can still construct a simplified architecture flow based on the operations performed in the script.
+
+Here's the Mermaid.js sequence diagram format:
+
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant View as view-appointment.php
+    participant DB as Database
+    User->>View: Request to view appointments
+    View->>DB: SELECT * FROM appo
+    DB-->>View: Returns appointment data
+    View-->>User: Displays appointment data
+```
+
+This diagram represents the following flow:
+
+1. The user requests to view appointments.
+2. The `view-appointment.php` script queries the database with `SELECT * FROM appo`.
+3. The database returns the appointment data to the script.
+4. The script then displays the appointment data to the user.
+
+%% Diagram 15
+The provided code is a PHP script that directly interacts with the database. It does not follow the MVC (Model-View-Controller) pattern, so it's not possible to extract a high-level architecture flow in the format of route → controller → model → db. 
+
+However, we can describe the flow of this script as follows:
+
+- The script connects to the database.
+- It then executes a SQL query to fetch all doctors from the "doctors" table.
+- The results are displayed in an HTML table.
+- Finally, the script closes the database connection.
+
+In Mermaid.js format, the flow would look like this:
+
+```mermaid
+sequenceDiagram
+    participant Script as PHP Script
+    participant DB as Database
+    Script->>DB: Connect to Database
+    Note over Script,DB: Connection Successful
+    Script->>DB: Execute SQL Query (Fetch all doctors)
+    DB-->>Script: Return Query Result
+    Script->>Script: Display Results in HTML Table
+    Script->>DB: Close Database Connection
+```
+
+This diagram represents the sequence of operations performed by the PHP script in interaction with the database.
+
+%% Diagram 16
+The provided PHP file is a view file, which is part of the MVC (Model-View-Controller) architecture. However, it doesn't strictly follow the MVC pattern as it mixes the view and the controller responsibilities. 
+
+Here is the high-level architecture flow:
+
+1. Route: The user navigates to the "view-patient.php" page.
+2. Controller: The PHP code within the "view-patient.php" file acts as the controller. It handles the POST request when the search form is submitted. It also connects to the database and fetches the patient data.
+3. Model: There isn't a distinct model layer in this file. The SQL query to fetch data from the "patient" table acts as a rudimentary model.
+4. Database: The database is accessed directly from the controller code. It uses the "patient" table in the "hospital" database.
+
+Here is the Mermaid.js representation:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant ViewPatient.php as Controller
+    participant Patient as Model
+    participant Hospital as Database
+    User->>Controller: Navigate to view-patient.php
+    Controller->>Database: Connect to hospital database
+    Database-->>Controller: Connection established
+    User->>Controller: Submit search form (POST)
+    Controller->>Model: Query patient data
+    Model->>Database: Fetch data from patient table
+    Database-->>Model: Return patient data
+    Model-->>Controller: Return patient data
+    Controller->>User: Display patient data
+```
+
+Please note that this diagram simplifies the process and does not include error handling or other potential interactions.

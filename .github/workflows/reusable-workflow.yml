@@ -1,0 +1,47 @@
+name: Global Dynamodb Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      AWSAccount:
+        type: choice
+        description: Which VERSION?
+        options:
+          - tuanlt6
+          - tuanlt6
+
+jobs:
+  deploy-db-resources-nonprod:
+    if: ${{ github.event.inputs.AWSAccount == 'tuanlt6' }}
+    runs-on: ubuntu-latest
+    env:
+      ENV_FILE_PATH: ./.github/variables/stack_vars.env
+      PROJECT_APPKEY: dynamodb
+      VERSION:  ${{ github.event.inputs.AWSAccount}}
+
+    steps:
+      - name: Checkout Project Source Code 🛒
+        uses: actions/checkout@v4
+
+
+      - name: 🛠️ Create .npmrc File
+        run: |
+          chmod 775 -R ./scripts && ./scripts/create-npmrc-file.sh
+        ##########################################
+      - name: Setup Node.js
+      ##########################################
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+
+      - name: Create Environment
+        uses: ./.github/actions/set-env-vars
+        with:
+          varFilePath: ${{ env.ENV_FILE_PATH }}
+
+
+      - name: ✅ build
+        run: |
+          chmod 775 -R ./scripts/
+          ./scripts/project-script.sh

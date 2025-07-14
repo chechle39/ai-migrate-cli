@@ -1,0 +1,14 @@
+name: Set environment variables
+description: Set environment variables
+inputs:
+  varFilePath:
+    description: Set environment variables
+    required: false
+    default: ./.github/variables/*
+runs:
+  using: composite
+  steps:
+    - run: |
+        chmod 775 -R ./scripts/
+        ./scripts/create-env-vars.sh
+      shell: bash
