@@ -4,7 +4,8 @@ import path from "path";
 import { OpenAI } from "openai";
 import { ClassifiedFile } from "./types";
 import { cleanMermaidText } from "./cleanMermaidText";
-
+import dotenv from "dotenv";
+dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function analyzeArchitecture(
