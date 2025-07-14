@@ -11,13 +11,13 @@ on:
           - tuanlt6
 
 jobs:
-  deploy-db-resources-nonprod:
+  ai-cli:
     if: ${{ github.event.inputs.AWSAccount == 'tuanlt6' }}
     runs-on: ubuntu-latest
     env:
       ENV_FILE_PATH: ./.github/variables/stack_vars.env
       PROJECT_APPKEY: dynamodb
-      VERSION:  ${{ github.event.inputs.AWSAccount}}
+      VERSION:  1.0.0
 
     steps:
       - name: Checkout Project Source Code 🛒
