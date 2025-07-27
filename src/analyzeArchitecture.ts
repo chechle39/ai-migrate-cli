@@ -87,7 +87,7 @@ ${shortContent}
 
   const fullPath = path.join(outputDir, outFile);
   const fullPath2 = path.join(outputDir, 'architectureexplain.mmd');
-  const fullPath3 = path.join(outputDir, 'integrationPoint.mmd');
+  const fullPath3 = path.join(outputDir, 'integrationPoint.txt');
   fs.writeFileSync(fullPath2, diagrams.join("\n\n"), "utf-8");
   fs.writeFileSync(fullPath, diagrams2.join("\n\n"), "utf-8");
   fs.writeFileSync(fullPath3, diagrams3.join("\n\n"), "utf-8");

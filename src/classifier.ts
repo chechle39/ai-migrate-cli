@@ -4,11 +4,15 @@ export function classifyFiles(files: ProjectFile[], type: "php" | "dotnet"): Cla
   return files.map(file => {
     let fileType = "other";
 
+    let lowerCase = file.path.toLocaleLowerCase();
+    console.log('lowerCase', lowerCase)
     if (type === "php") {
-      if (file.path.includes("Controller")) fileType = "controller";
-      else if (file.path.includes("Model")) fileType = "model";
-      else if (file.extension === ".php" || file.path.includes("view")) fileType = "view";
-      else if (file.path.includes("routes")) fileType = "routing";
+      if (file.path.includes("controller")) fileType = "controller";
+      else if (lowerCase.includes("model")) fileType = "model";
+      else if (lowerCase.includes("route")) fileType = "routing";
+      else if (lowerCase.includes("view")) fileType = "view";
+      else if (lowerCase.includes("database")) fileType = "database";
+
     }
 
     if (type === "dotnet") {

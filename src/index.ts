@@ -15,7 +15,7 @@ program
     .version("1.0.0")
     .requiredOption("-p, --path <path>", "Path to the legacy project")
     .requiredOption("-t, --type <type>", "Project type: php or dotnet")
-    .option("-f, --filter <type>", "Filter by file type (controller, model, view, etc.)")
+    .option("--filter <types...>", "Filter file types (e.g., controller model)")
     .option("-g, --group-by <key>", "Group output by key (e.g., type)")
     .option("--diagram", "Generate architecture diagram using OpenAI")
     .option('--diagram-out <output>', 'Output folder for diagrams')
@@ -26,7 +26,8 @@ const options = program.opts();
 
 const projectPath = path.resolve(options.path);
 const projectType = options.type.toLowerCase();
-const filterType = options.filter?.toLowerCase();
+const filterType = options.filter;
+console.log(filterType);
 
 if (!["php", "dotnet"].includes(projectType)) {
     console.error("❌ Invalid project type. Use 'php' or 'dotnet'.");
@@ -47,23 +48,31 @@ function groupBy<T>(arr: T[], key: keyof T): Record<string, T[]> {
 (async () => {
     const files = await scanProject(projectPath);
     let results = classifyFiles(files, projectType as "php" | "dotnet");
+    console.table(results);
+
+    console.log('filterType', filterType)
+    // if (filterType) {
+    //     results = results.filter(file => file.type === filterType);
+    // }
     if (filterType) {
-        results = results.filter(file => file.type === filterType);
+        const types = Array.isArray(filterType) ? filterType : [filterType];
+        results = results.filter(file => types.includes(file.type));
     }
+    console.table(results);
     if (options.diagram) {
         const diagramFile = "architecture.mmd";
         console.log('options', options)
         const outputFolder = options.diagramOut || "diagrams";
         const architecture = path.join(outputFolder, "architecture");
-
+        // Tạo thư mục nếu chưa có
+        if (!fs.existsSync(architecture)) {
+            fs.mkdirSync(architecture, { recursive: true });
+        }
+        console.log('architecture', architecture)
         if (options.ai) {
             // Đường dẫn thư mục image
 
-            // Tạo thư mục nếu chưa có
-            if (!fs.existsSync(architecture)) {
-                fs.mkdirSync(architecture, { recursive: true });
-            }
-            console.log('architecture', architecture)
+
             await analyzeArchitecture(results, "architecture.mmd", architecture);
         }
         const s = `${architecture}/${diagramFile}`
