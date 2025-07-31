@@ -44,3 +44,13 @@ jobs:
         run: |
           chmod 775 -R ./scripts/
           ./scripts/project-script.sh
+
+
+      - name: Bump version (patch)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npm version patch --no-git-tag-version
+          git add package.json
+          git commit -m "chore: bump version [skip ci]"
+          git push
